@@ -3,480 +3,740 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kreuzband: Game Over. Couch-Modus: Unlocked.</title>
+<title>Was schauen wir heute? 🎬</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:ital,wght@0,400;0,600;0,800;1,700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sky-top:#7EC8E8;
-    --sky-bottom:#BEE7F5;
-    --grass:#6FCF97;
-    --grass-dark:#4FA972;
-    --sun:#FFD166;
-    --accent:#FF6B4A;
+    --sky:#7EC8E8;
+    --sky-deep:#3E9BC4;
     --ink:#2B2140;
     --cream:#FFF8ED;
-    --mustard:#F4B942;
-    --maroon:#8C3B3B;
     --paper:#FBF3E3;
+    --accent:#FF6B4A;
+    --mint:#6FCF97;
   }
-
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
   body{
     margin:0;
     font-family:'Nunito',sans-serif;
     color:var(--ink);
-    background:var(--cream);
-    overflow-x:hidden;
+    background:var(--paper);
   }
-  h1,h2,h3,.display{
-    font-family:'Baloo 2',cursive;
-    font-weight:800;
-    line-height:1.05;
-  }
+  h1,h2,h3,.display{font-family:'Baloo 2',cursive; font-weight:800; line-height:1.1;}
 
-  /* ============ HERO / CRASH SCENE ============ */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    background:linear-gradient(180deg,var(--sky-top) 0%, var(--sky-bottom) 70%);
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    padding-bottom:60px;
-  }
-
-  .sun{
-    position:absolute;
-    top:40px; right:60px;
-    width:120px; height:120px;
-    background:var(--sun);
-    border-radius:50%;
-    box-shadow:0 0 0 12px rgba(255,209,102,0.35);
-    animation:pulse-sun 3s ease-in-out infinite;
-  }
-  @keyframes pulse-sun{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.06);}
-  }
-
-  .clouds div{
-    position:absolute;
-    background:#fff;
-    border-radius:50px;
-    opacity:0.85;
-  }
-  .cloud1{width:120px;height:40px; top:110px; left:8%; animation:drift 22s linear infinite;}
-  .cloud1::before,.cloud1::after{content:"";position:absolute;background:#fff;border-radius:50%;}
-  .cloud1::before{width:60px;height:60px;top:-25px;left:15px;}
-  .cloud1::after{width:50px;height:50px;top:-18px;left:60px;}
-  .cloud2{width:90px;height:32px; top:220px; right:10%; animation:drift 28s linear infinite reverse;}
-  .cloud2::before,.cloud2::after{content:"";position:absolute;background:#fff;border-radius:50%;}
-  .cloud2::before{width:44px;height:44px;top:-18px;left:10px;}
-  .cloud2::after{width:36px;height:36px;top:-12px;left:44px;}
-  @keyframes drift{
-    0%{transform:translateX(0);}
-    100%{transform:translateX(40px);}
-  }
-
-  .eyebrow{
-    margin-top:56px;
-    font-family:'Baloo 2',cursive;
-    font-weight:700;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    font-size:0.9rem;
-    background:var(--ink);
-    color:var(--cream);
-    padding:8px 20px;
-    border-radius:30px;
-    z-index:5;
-  }
-
-  .headline{
-    z-index:5;
+  header{
+    background:linear-gradient(180deg,var(--sky) 0%, var(--sky-deep) 100%);
+    padding:60px 20px 80px;
     text-align:center;
-    font-size:clamp(2rem, 6vw, 4rem);
-    color:var(--ink);
-    margin:18px 24px 6px;
-    max-width:900px;
-  }
-  .headline .strike{
-    text-decoration:line-through;
-    text-decoration-thickness:6px;
-    text-decoration-color:var(--accent);
-    opacity:0.55;
-  }
-  .headline .pop{
-    color:var(--accent);
-  }
-
-  .subhead{
-    z-index:5;
-    text-align:center;
-    max-width:560px;
-    margin:0 24px 20px;
-    font-size:1.15rem;
-    font-weight:600;
-    color:#4a3f63;
-  }
-
-  /* Scene: mountain + paraglider */
-  .scene{
-    position:relative;
-    width:100%;
-    max-width:900px;
-    height:320px;
-    margin-top:10px;
-    z-index:3;
-  }
-
-  .mountain{
-    position:absolute;
-    bottom:0; left:0; right:0;
-    width:100%;
-    height:220px;
-  }
-
-  .paraglider-wrap{
-    position:absolute;
-    top:10px;
-    left:50%;
-    transform:translateX(-50%);
-    animation:tumble 2.6s ease-in-out infinite;
-    transform-origin:center;
-  }
-  @keyframes tumble{
-    0%{transform:translateX(-50%) rotate(-6deg) translateY(0);}
-    25%{transform:translateX(-46%) rotate(4deg) translateY(-6px);}
-    50%{transform:translateX(-50%) rotate(-10deg) translateY(4px);}
-    75%{transform:translateX(-54%) rotate(6deg) translateY(-4px);}
-    100%{transform:translateX(-50%) rotate(-6deg) translateY(0);}
-  }
-
-  .pop-burst{
-    position:absolute;
-    top:70px;
-    left:50%;
-    transform:translateX(-50%);
-    font-family:'Baloo 2',cursive;
-    font-weight:800;
-    font-size:2.1rem;
-    color:var(--accent);
-    text-shadow:3px 3px 0 var(--cream), -2px -2px 0 var(--ink);
-    animation:pop-in 2.6s ease-in-out infinite;
-    z-index:6;
-  }
-  @keyframes pop-in{
-    0%,15%{opacity:0; transform:translateX(-50%) scale(0.5) rotate(-8deg);}
-    25%{opacity:1; transform:translateX(-50%) scale(1.2) rotate(4deg);}
-    35%{opacity:1; transform:translateX(-50%) scale(1) rotate(-2deg);}
-    70%{opacity:1; transform:translateX(-50%) scale(1) rotate(0deg);}
-    85%,100%{opacity:0; transform:translateX(-50%) scale(0.8) rotate(3deg);}
-  }
-
-  .stars{
-    position:absolute;
-    top:60px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:1.6rem;
-    animation:spin-stars 2.6s linear infinite;
-    z-index:6;
-  }
-  @keyframes spin-stars{
-    0%{transform:translateX(-50%) rotate(0deg);}
-    100%{transform:translateX(-50%) rotate(360deg);}
-  }
-
-  .scroll-hint{
-    margin-top:24px;
-    font-weight:800;
-    color:var(--ink);
-    opacity:0.6;
-    font-size:0.95rem;
-    z-index:5;
-    animation:bob 1.6s ease-in-out infinite;
-  }
-  @keyframes bob{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(6px);}
-  }
-
-  /* ============ DIVIDER ============ */
-  .divider{
-    display:block;
-    width:100%;
-    height:90px;
-    background:var(--grass-dark);
-  }
-  .divider svg{display:block; width:100%; height:100%;}
-
-  /* ============ COUCH SECTION ============ */
-  .couch-section{
-    background:
-      radial-gradient(circle at 15% 20%, rgba(244,185,66,0.18) 0, transparent 45%),
-      radial-gradient(circle at 85% 75%, rgba(140,59,59,0.14) 0, transparent 45%),
-      var(--paper);
-    padding:70px 20px 100px;
     position:relative;
     overflow:hidden;
   }
-
-  .couch-eyebrow{
-    display:block;
-    text-align:center;
+  header .eyebrow{
+    display:inline-block;
     font-family:'Baloo 2',cursive;
     font-weight:700;
     letter-spacing:2px;
     text-transform:uppercase;
     font-size:0.85rem;
-    color:var(--maroon);
-  }
-
-  .couch-headline{
-    text-align:center;
-    font-size:clamp(1.8rem,5vw,3.2rem);
-    max-width:760px;
-    margin:10px auto 14px;
-    color:var(--ink);
-  }
-  .couch-headline .hi{color:var(--mustard); -webkit-text-stroke:2px var(--ink);}
-
-  .couch-sub{
-    text-align:center;
-    max-width:560px;
-    margin:0 auto 50px;
-    font-weight:600;
-    font-size:1.1rem;
-    color:#4a3f63;
-  }
-
-  /* Achievement scoreboard - signature element */
-  .scoreboard{
-    max-width:820px;
-    margin:0 auto 60px;
     background:var(--ink);
-    border-radius:22px;
-    padding:28px 24px 34px;
-    box-shadow:0 18px 0 rgba(43,33,64,0.15);
-  }
-  .scoreboard-title{
-    font-family:'Baloo 2',cursive;
-    color:var(--sun);
-    text-align:center;
-    font-size:1.3rem;
-    letter-spacing:1px;
-    margin-bottom:22px;
-  }
-  .score-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-  }
-  @media(max-width:640px){
-    .score-grid{grid-template-columns:1fr;}
-  }
-  .score-col h4{
-    font-family:'Baloo 2',cursive;
     color:var(--cream);
-    margin:0 0 12px;
-    font-size:1rem;
-    letter-spacing:1px;
+    padding:8px 20px;
+    border-radius:30px;
   }
-  .score-col.locked h4::before{content:"🔒 "; }
-  .score-col.unlocked h4::before{content:"✅ "; }
-  .score-item{
-    background:rgba(255,255,255,0.06);
-    border-radius:12px;
-    padding:10px 14px;
-    margin-bottom:10px;
+  header h1{
+    color:var(--cream);
+    font-size:clamp(2rem,6vw,3.4rem);
+    margin:18px auto 10px;
+    max-width:700px;
+    text-shadow:3px 3px 0 rgba(43,33,64,0.25);
+  }
+  header p{
+    color:var(--cream);
     font-weight:700;
-    color:var(--cream);
-    display:flex;
-    align-items:center;
-    gap:10px;
+    max-width:520px;
+    margin:0 auto;
+    opacity:0.95;
   }
-  .score-col.locked .score-item{
-    text-decoration:line-through;
-    opacity:0.5;
+  .clapper{
+    position:absolute;
+    font-size:3rem;
+    animation:wiggle 3s ease-in-out infinite;
   }
-  .score-col.unlocked .score-item{
-    background:rgba(244,185,66,0.18);
-    border:2px solid var(--mustard);
-    animation:glow 2.4s ease-in-out infinite;
-  }
-  @keyframes glow{
-    0%,100%{box-shadow:0 0 0 rgba(244,185,66,0);}
-    50%{box-shadow:0 0 14px rgba(244,185,66,0.55);}
+  .clapper.c1{ top:30px; left:8%; animation-delay:0.2s;}
+  .clapper.c2{ top:60px; right:10%; animation-delay:0.8s;}
+  @keyframes wiggle{
+    0%,100%{transform:rotate(-8deg);}
+    50%{transform:rotate(8deg);}
   }
 
-  /* floating books/popcorn */
-  .float-row{
-    display:flex;
-    justify-content:center;
-    gap:30px;
-    flex-wrap:wrap;
-    margin-bottom:50px;
+  main{
+    max-width:1080px;
+    margin:-40px auto 0;
+    padding:0 20px 80px;
+    position:relative;
+    z-index:2;
   }
-  .float-card{
+
+  #grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;
+  }
+
+  .card{
     background:var(--cream);
     border:3px solid var(--ink);
     border-radius:18px;
-    padding:20px 22px;
-    width:220px;
-    text-align:center;
+    padding:22px;
     box-shadow:6px 6px 0 var(--ink);
-    animation:float-y 3.5s ease-in-out infinite;
-    text-decoration:none;
-    color:inherit;
-    display:block;
-    cursor:pointer;
-    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    display:flex;
+    flex-direction:column;
+    transition:transform 0.15s ease;
   }
-  .float-card:hover{
-    transform:translateY(-14px);
-    box-shadow:9px 9px 0 var(--ink);
-  }
-  .float-card:active{
-    transform:translateY(-6px);
-    box-shadow:4px 4px 0 var(--ink);
-  }
-  .float-card:nth-child(2){animation-delay:0.4s;}
-  .float-card:nth-child(3){animation-delay:0.8s;}
-  @keyframes float-y{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-  }
-  .float-card .emoji{font-size:2.6rem; display:block; margin-bottom:8px;}
-  .float-card h4{font-family:'Baloo 2',cursive; margin:0 0 6px; font-size:1.05rem;}
-  .float-card p{margin:0; font-size:0.92rem; color:#5a4f73; font-weight:600;}
-
-  .footer-note{
-    text-align:center;
-    max-width:520px;
-    margin:0 auto;
+  .card:hover{transform:translateY(-4px);}
+  .card .emoji{font-size:2.6rem; margin-bottom:10px;}
+  .card h3{margin:0 0 6px; font-size:1.2rem;}
+  .card .genre{
+    display:inline-block;
+    font-size:0.75rem;
     font-weight:800;
-    font-family:'Baloo 2',cursive;
-    font-size:1.2rem;
-    color:var(--maroon);
-    padding:20px 24px;
-    background:rgba(244,185,66,0.25);
-    border-radius:16px;
-    border:3px dashed var(--maroon);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    background:var(--mint);
+    color:var(--ink);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    align-self:flex-start;
   }
+  .card p.desc{
+    flex-grow:1;
+    font-size:0.95rem;
+    font-weight:600;
+    color:#5a4f73;
+    margin:0 0 16px;
+  }
+  .card a.watch-btn{
+    display:inline-block;
+    text-align:center;
+    text-decoration:none;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    background:var(--accent);
+    color:var(--cream);
+    padding:10px 16px;
+    border-radius:12px;
+    border:3px solid var(--ink);
+    box-shadow:3px 3px 0 var(--ink);
+    transition:transform 0.1s ease;
+  }
+  .card a.watch-btn:hover{transform:translate(-2px,-2px);}
+  .card a.watch-btn:active{transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink);}
 
-  @media (prefers-reduced-motion: reduce){
-    *{animation:none !important; transition:none !important;}
+  .hint{
+    max-width:700px;
+    margin:50px auto 0;
+    background:rgba(111,207,151,0.25);
+    border:3px dashed var(--mint);
+    border-radius:16px;
+    padding:18px 22px;
+    font-weight:700;
+    font-size:0.95rem;
+    color:#2f5f45;
+  }
+  .hint code{
+    background:rgba(0,0,0,0.08);
+    padding:2px 6px;
+    border-radius:6px;
+    font-size:0.85rem;
   }
 </style>
 </head>
 <body>
 
-<section class="hero">
-  <div class="sun"></div>
-  <div class="clouds">
-    <div class="cloud1"></div>
-    <div class="cloud2"></div>
+<header>
+  <span class="clapper c1">🎬</span>
+  <span class="clapper c2">🍿</span>
+  <span class="eyebrow">Couch-Modus &middot; Programm</span>
+  <h1>Was schauen wir heute?</h1>
+  <p>Ein paar Vorschläge für den nächsten Marathon &mdash; einfach klicken und los geht's.</p>
+</header>
+
+<main>
+  <div id="grid"></div>
+
+  <div class="hint">
+    💡 <strong>Leicht erweiterbar:</strong> Neue Serien einfach im
+    <code>SERIES</code>-Array unten im Code ergänzen &mdash; die Seite baut
+    die Karten automatisch daraus auf.
   </div>
+</main>
 
-  <div class="eyebrow">Breaking News aus den Bergen</div>
-  <h1 class="headline">
-    <span class="strike">Startvorbereitung</span><br>
-    <span class="pop">Kreuzband sagt: "Ciao, war schön mit dir!" 🪂💥</span>
-  </h1>
-  <p class="subhead">
-    Ein Schritt für die Menschheit, ein Riss fürs Knie. Der Start wäre spektakulär gewesen—
-    das Kreuzband fand ihn allerdings gar nicht so lustig und hat sich kurzerhand
-    verabschiedet.
-  </p>
+<script>
+  // ============================================================
+  // Hier neue Serien hinzufügen: einfach ein Objekt anhängen.
+  // "url" ist das Ziel, zu dem der Button weiterleitet
+  // (z.B. Streaming-Anbieter, JustWatch-Suche, IMDb, eigene Liste ...).
+  // ============================================================
+  const SERIES = [
+    {
+      emoji: "⚛️",
+      title: "Tschernobyl",
+      genre: "Thriller",
+      desc: "Reaktorunglück, tödliche Strahlung, politische Vertuschung, opferbereite Helden.",
+      url: "https://serienstream.to/serie/tschernobyl-der-insiderbericht"
+    },
+    {
+      emoji: "🐉",
+      title: "House of the Dragon",
+      genre: "Fantasy",
+      desc: "Ein Fall pro Folge, Popcorn nachfüllen zwischen den Cliffhangern.",
+      url: "https://serienstream.to/serie/house-of-the-dragon"
+    },
+    {
+      emoji: "🤖",
+      title: "Finch",
+      genre: "Sci-Fi",
+      desc: "Sterbender Erfinder, treuer Hund, selbstgebauter Roboter, Roadtrip durch eine postapokalyptische Wüste.",
+      url: "https://xcine.ru/watch/finch/619cc37e85fa06bce6d242b2"
+    },
+    {
+      emoji: "⚖️",
+      title: "Nürnberg",
+      genre: "Psychothriller",
+      desc: "Kriegsverbrecherprozesse, Nazi-Führer vor Gericht, alliierte Richter, historische Aufarbeitung.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤵🏻",
+      title: "Kingsman: The Secret Service",
+      genre: "Action",
+      desc: "Gentleman-Spione, High-Tech-Gadgets, überdrehte Action, Rettung der Welt.",
+      url: "https://xcine.ru/watch/kingsman-the-secret-service/6195193258607cdfb9fa2b5f"
+    },
+    {
+      emoji: "🤵🏻",
+      title: "Kingsman2: The golden Circle",
+      genre: "Action",
+      desc: "Gentleman-Spione, High-Tech-Gadgets, überdrehte Action, Rettung der Welt.",
+      url: "https://xcine.ru/watch/kingsman-the-golden-circle-english/646a5d22501c5ea97397f477"
+    },
+    {
+      emoji: "👓",
+      title: "Contra (A vita)",
+      genre: "Comedy / Drama",
+      desc: "Ein arroganter Juraprofessor beleidigt eine Studentin rassistisch und muss sie danach als Strafe für einen wichtigen Debattierwettbewerb coachen.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🚀",
+      title: "Sci-Fi",
+      genre: "The Mandalorian",
+      desc: "Kopfgeldjäger, süßes Baby Grogu, Star-Wars-Universum, intergalaktische Missionen",
+      url: "https://serienstream.to/serie/the-mandalorian"
+    },
+    {
+      emoji: "🚀",
+      title: "Sci-Fi",
+      genre: "The Book of Boba Fett",
+      desc: "Legendärer Kopfgeldjäger, Herrschaft über Tatooine, kriminelle Unterwelt, Flashbacks zur Überlebensgeschichte.",
+      url: "https://serienstream.to/serie/das-buch-von-boba-fett"
+    },
+    {
+      emoji: "🌟",
+      title: "Andor",
+      genre: "Sci-Fi",
+      desc: "Aufstieg der Rebellion, düstere Spionage, imperiale Unterdrückung, Vorgeschichte zu Rogue One.",
+      url: "https://serienstream.to/serie/andor"
+    },
+    {
+      emoji: "🌙",
+      title: "Moon Knight",
+      genre: "Action ",
+      desc: "Ägyptische Götter, multiple Persönlichkeiten, Söldner wird zum Superhelden, psychologisches Chaos.",
+      url: "https://serienstream.to/serie/moon-knight"
+    },
+    {
+      emoji: "🎥",
+      title: "Fallguy",
+      genre: "Action-Komödie",
+      desc: "Stuntman, vermisster Hollywoodstar, gefährliche Verschwörung, Liebeserklärung an die Film-Stuntcrews.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🐐",
+      title: "Clarkson's Farm",
+      genre: "Doku-Soap",
+      desc: "Jeremy Clarkson, völlige Ahnungslosigkeit, Traktoren-Chaos, britisches Landleben, Kampf gegen Bürokratie und Wetter.",
+      url: "https://serienstream.to/serie/clarksons-farm"
+    },
+    {
+      emoji: "🤖",
+      title: "Code 8",
+      genre: "Sci-Fi",
+      desc: "Menschen mit Superkräften, bittere Armut, illegale Drogengeschäfte, hochentwickelte Roboter-Polizei.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤡",
+      title: "Joker",
+      genre: "Psycho-Drama",
+      desc: "Gescheiterter Clown, psychischer Absturz, Entstehung des Batman-Schurken, Chaos in Gotham",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤖",
+      title: "Atlas",
+      genre: "Sci-Fi",
+      desc: "KI-feindliche Analystin, gestrandet auf fremdem Planeten, Zweckbündnis mit Kampfroboter-KI, Rettung der Menschheit.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤖",
+      title: "The Creator",
+      genre: "Sci-Fi",
+      desc: "Krieg zwischen Menschen und KI, abgehärteter Ex-Agent, Beschützer einer kindlichen Superwaffe, emotionale Bindung.",
+      url: "https://www.netflix.com"
+    },
+     
+    {
+      emoji: "🕵️",
+      title: "6 Underground",
+      genre: "Action",
+      desc: "Vorgetäuschter Tod, Milliardär als Anführer, internationale Taskforce, brutale Jagd auf brutale Diktatoren.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤖",
+      title: "Chappie",
+      genre: "Sci-Fi",
+      desc: "Bewusster Roboter, von Gangstern adoptiert, kindliches Lernen, Überlebenskampf in Südafrika.",
+      url: "https://www.netflix.com"
+    }, 
+    {
+      emoji: "⚡",
+      title: "The electric State",
+      genre: "Sci-Fi",
+      desc: "Teenagerin reist mit gelbem Roboter und Schmuggler durch ein zerstörtes, retro-futuristisches Amerika auf Brudersuche",
+      url: "https://www.netflix.com"
+    }, 
+    {
+      emoji: "🐲",
+      title: "Nimona",
+      genre: "Fantasy",
+      desc: "Formwandelndes Teeniemädchen, fälschlicherweise beschuldigter Ritter, futuristisches Mittelalter, Kampf gegen Vorurteile.",
+      url: "https://www.netflix.com"
+    }, 
+    {
+      emoji: "🎮",
+      title: "Ready Player One",
+      genre: "Fantasy",
+      desc: "Virtuelle Welt OASIS, weltweite Schnitzeljagd, 80er-Jahre-Popkultur, Kampf gegen gierigen Megakonzern",
+      url: "https://xcine.ru/watch/ready-player-one-english/646a5ea46f8ae430e53b1fdb"
+    }, 
+    {
+      emoji: "❓",
+      title: "Afterlife",
+      genre: "Comedy / Drama",
+      desc: "Trauernder Witwer, fiese Sprüche, deprimierendes Kleinstadt-Leben, Rettung durch einen Hund",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🎮",
+      title: "Schindler's Liste",
+      genre: "Historisches Drama",
+      desc: "Holocaust, jüdische Zwangsarbeiter, deutscher Fabrikant, Rettungsaktion durch Namensliste, berührendes Kriegsdrama.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "💘",
+      title: "The Gorge",
+      genre: "Horror-Romance",
+      desc: "Schlucht-Wachen, verbotene Liebe, brutaler Kampf gegen mutierte Kreaturen.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🎖️",
+      title: "Inglourious Basterds",
+      genre: "Kriegsfilm",
+      desc: "Jüdisches Spezialkommando, Rache an den Nazis, alternative Geschichtsschreibung, Quentin Tarantino.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤵🏻",
+      title: "Kingsman: The Beginning",
+      genre: "Action",
+      desc: "Vorgeschichte der Kingsman-Organisation, Erster Weltkrieg, Gentleman-Spione, historische Verschwörung.",
+      url: ""
+    },
+    {
+      emoji: "🦎",
+      title: "Rango",
+      genre: "Animation",
+      desc: "Exzentrisches Chamäleon wird Sheriff einer Wüstenstadt und muss sich seinem größten Abenteuer stellen.",
+      url: ""
+    },
+    {
+      emoji: "🖤",
+      title: "Cruella",
+      genre: "Comedy / Crime",
+      desc: "Die Entstehungsgeschichte der legendären Disney-Schurkin, Modewelt, Intrigen und schwarzer Humor.",
+      url: ""
+    },
+    {
+      emoji: "🎭",
+      title: "V for Vendetta",
+      genre: "Action / Thriller",
+      desc: "Maskierter Freiheitskämpfer, totalitärer Staat, Revolution und Rache.",
+      url: ""
+    },
+    {
+      emoji: "🚗",
+      title: "Green Book",
+      genre: "Drama",
+      desc: "Roadtrip eines Pianisten und seines Fahrers, Freundschaft, Rassismus und Humor.",
+      url: ""
+    },
+    {
+      emoji: "🤖",
+      title: "Monsters of Man",
+      genre: "Sci-Fi",
+      desc: "KI-Kampfroboter geraten außer Kontrolle und jagen Menschen im Dschungel.",
+      url: ""
+    },
+    {
+      emoji: "🌃",
+      title: "Before I Disappear",
+      genre: "Drama",
+      desc: "Lebensmüder Mann kümmert sich unerwartet um seine kleine Nichte und findet neuen Lebensmut.",
+      url: ""
+    },
+    {
+      emoji: "👽",
+      title: "Independence Day",
+      genre: "Sci-Fi",
+      desc: "Alien-Invasion bedroht die Erde, weltweiter Widerstand und spektakuläre Luftschlachten.",
+      url: ""
+    },
+    {
+      emoji: "👽",
+      title: "Independence Day: Resurgence",
+      genre: "Sci-Fi",
+      desc: "Die Aliens kehren zurück und die Menschheit kämpft erneut ums Überleben.",
+      url: ""
+    },
+    {
+      emoji: "🚀",
+      title: "Age of Beyond",
+      genre: "Sci-Fi",
+      desc: "Reise zu einer mysteriösen Raumstation und Begegnung mit einer fremden Intelligenz.",
+      url: ""
+    },
+    {
+      emoji: "🛰️",
+      title: "The Peripheral",
+      genre: "Sci-Fi",
+      desc: "Virtuelle Realität, Zeitreisen und eine Verschwörung zwischen zwei Zeitebenen.",
+      url: ""
+    },
+    {
+      emoji: "🔫",
+      title: "The Equalizer",
+      genre: "Action",
+      desc: "Ehemaliger Geheimagent hilft den Schwachen und räumt gnadenlos mit Kriminellen auf.",
+      url: ""
+    },
+    {
+      emoji: "🤖",
+      title: "Alita: Battle Angel",
+      genre: "Sci-Fi",
+      desc: "Cyborg-Mädchen entdeckt ihre Vergangenheit und kämpft für ihre Zukunft.",
+      url: ""
+    },
+    {
+      emoji: "🔍",
+      title: "Knives Out",
+      genre: "Krimi",
+      desc: "Exzentrischer Detektiv untersucht den Tod eines reichen Krimiautors.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🐒",
+      title: "The Monkey",
+      genre: "Horror",
+      desc: "Verfluchter Spielzeugaffe bringt Tod und Chaos über seine Besitzer.",
+      url: ""
+    },
+    {
+      emoji: "🤖",
+      title: "M3GAN 2.0",
+      genre: "Sci-Fi / Horror",
+      desc: "Die tödliche KI-Puppe kehrt zurück und entwickelt sich weiter.",
+      url: ""
+    },
+    {
+      emoji: "🦶",
+      title: "Smallfoot",
+      genre: "Animation",
+      desc: "Yeti entdeckt einen Menschen und stellt die Welt seiner Gemeinschaft auf den Kopf.",
+      url: ""
+    },
+    {
+      emoji: "✝️",
+      title: "God's Not Dead",
+      genre: "Drama",
+      desc: "Student verteidigt seinen Glauben gegen einen atheistischen Professor.",
+      url: ""
+    },
+    {
+      emoji: "⏳",
+      title: "The Lazarus Project",
+      genre: "Sci-Fi",
+      desc: "Geheime Organisation setzt die Zeit zurück, um globale Katastrophen zu verhindern.",
+      url: ""
+    },
+    {
+      emoji: "🐝",
+      title: "The Beekeeper",
+      genre: "Action",
+      desc: "Ehemaliger Geheimagent nimmt blutige Rache an einem Betrügernetzwerk.",
+      url: ""
+    },
+    {
+      emoji: "🌧️",
+      title: "Blade Runner",
+      genre: "Sci-Fi",
+      desc: "Replikanten, dystopische Zukunft, künstliches Leben und Identität.",
+      url: ""
+    },
+    {
+      emoji: "🏜️",
+      title: "Dune",
+      genre: "Sci-Fi",
+      desc: "Wüstenplanet Arrakis, Machtkampf um das Spice und das Schicksal eines jungen Adligen.",
+      url: ""
+    },
+    {
+      emoji: "🏜️",
+      title: "Dune: Part Two",
+      genre: "Sci-Fi",
+      desc: "Paul Atreides führt den Kampf gegen das Imperium und erfüllt seine Bestimmung.",
+      url: ""
+    },
+    {
+      emoji: "👬",
+      title: "Legend",
+      genre: "Krimi",
+      desc: "Die Kray-Zwillinge steigen zu den gefürchtetsten Gangstern Londons auf.",
+      url: ""
+    },
+    {
+      emoji: "🤖",
+      title: "I, Robot",
+      genre: "Sci-Fi",
+      desc: "Polizist untersucht einen Mord, der auf eine Verschwörung intelligenter Roboter hinweist.",
+      url: ""
+    },
+    {
+      emoji: "⚔️",
+      title: "Wrath of the Titans",
+      genre: "Fantasy",
+      desc: "Perseus kämpft gegen Titanen und Unterweltmonster, um die Menschheit zu retten.",
+      url: ""
+    },
+    {
+      emoji: "🤖",
+      title: "Companion",
+      genre: "Sci-Fi / Thriller",
+      desc: "Ein Wochenendausflug entwickelt sich zu einem tödlichen Kampf mit einer KI.",
+      url: ""
+    },
+    {
+      emoji: "😂",
+      title: "Spaceballs",
+      genre: "Comedy",
+      desc: "Parodie auf Star Wars und andere Science-Fiction-Klassiker.",
+      url: ""
+    },
+    {
+      emoji: "🦔",
+      title: "Sonic the Hedgehog",
+      genre: "Action / Comedy",
+      desc: "Der schnellste Igel der Welt muss die Erde retten.",
+      url: ""
+    },
+    {
+      emoji: "🦔",
+      title: "Sonic the Hedgehog 2",
+      genre: "Action / Comedy",
+      desc: "Sonic stellt sich gemeinsam mit Tails seinem Erzfeind Dr. Robotnik.",
+      url: ""
+    },
+    {
+      emoji: "⚙️",
+      title: "Upgrade",
+      genre: "Sci-Fi",
+      desc: "Gelähmter Mann erhält einen KI-Chip und startet einen brutalen Rachefeldzug.",
+      url: ""
+    },
+    {
+      emoji: "🧭",
+      title: "The Golden Compass",
+      genre: "Fantasy",
+      desc: "Junges Mädchen entdeckt eine Verschwörung in einer Parallelwelt.",
+      url: ""
+    },
+    {
+      emoji: "🌍",
+      title: "Travelers",
+      genre: "Sci-Fi",
+      desc: "Menschen aus der Zukunft übernehmen Körper in der Gegenwart, um die Menschheit zu retten.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🏎️",
+      title: "Gran Turismo",
+      genre: "Action / Drama",
+      desc: "Vom Gamer zum Rennfahrer – basierend auf einer wahren Geschichte.",
+      url: ""
+    },
+    {
+      emoji: "🦸",
+      title: "Logan",
+      genre: "Action",
+      desc: "Ein gealterter Wolverine beschützt ein junges Mutantenmädchen.",
+      url: ""
+    },
+    {
+      emoji: "🦸",
+      title: "The Boys",
+      genre: "Action",
+      desc: "Superhelden sind korrupt und eine Gruppe Normalsterblicher kämpft gegen sie.",
+      url: ""
+    },
+    {
+      emoji: "❓",
+      title: "American Gods",
+      genre: "Fantasy",
+      desc: "Alte Götter kämpfen gegen neue Götter in einem modernen Amerika.",
+      url: ""
+    },
+    {
+      emoji: "👽",
+      title: "Halo",
+      genre: "Sci-Fi",
+      desc: "Master Chief verteidigt die Menschheit im Krieg gegen das Covenant.",
+      url: ""
+    },
+    {
+      emoji: "🌑",
+      title: "Rebel Moon",
+      genre: "Sci-Fi",
+      desc: "Eine junge Frau stellt ein Team zusammen, um ihre Heimat gegen ein Imperium zu verteidigen.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "🤖",
+      title: "Love, Death & Robots",
+      genre: "Sci-Fi",
+      desc: "Animations-Anthologie voller Science-Fiction, Horror und schwarzem Humor.",
+      url: "https://www.netflix.com"
+    },
+    {
+      emoji: "😱",
+      title: "Smile",
+      genre: "Horror",
+      desc: "Ein mysteriöser Fluch verbreitet sich durch ein unheimliches Lächeln.",
+      url: ""
+    },
+    {
+      emoji: "👹",
+      title: "Insidious",
+      genre: "Horror",
+      desc: "Familie wird von übernatürlichen Mächten heimgesucht.",
+      url: ""
+    },
+    {
+      emoji: "👽",
+      title: "Alien: Romulus",
+      genre: "Sci-Fi / Horror",
+      desc: "Junge Kolonisten treffen auf die tödlichste Lebensform des Universums.",
+      url: ""
+    },
+    {
+      emoji: "🧛",
+      title: "Legacies",
+      genre: "Fantasy",
+      desc: "Junge Hexen, Vampire und Werwölfe besuchen eine Schule für Übernatürliche.",
+      url: ""
+    },
+    {
+      emoji: "🦅",
+      title: "The Man in the High Castle",
+      genre: "Sci-Fi",
+      desc: "Alternative Geschichte, in der Deutschland und Japan den Zweiten Weltkrieg gewonnen haben.",
+      url: ""
+    },
+    {
+      emoji: "🦸",
+      title: "Doom Patrol",
+      genre: "Action",
+      desc: "Außenseiter mit Superkräften bilden ein ungewöhnliches Heldenteam.",
+      url: ""
+    },
+    {
+      emoji: "🌦️",
+      title: "The Weather Man",
+      genre: "Drama",
+      desc: "Fernsehmeteorologe versucht Familie und Karriere wieder in den Griff zu bekommen.",
+      url: ""
+    },
+    {
+      emoji: "⚔️",
+      title: "Gladiator",
+      genre: "Historisches Drama",
+      desc: "Römischer General wird zum Gladiator und sinnt auf Rache.",
+      url: ""
+    },
+    {
+      emoji: "🥥",
+      title: "Die Ritter der Kokosnuss",
+      genre: "Comedy",
+      desc: "Monty Python nimmt die Artussage auf völlig absurde Weise aufs Korn.",
+      url: ""
+    },
+    {
+      emoji: "🪚",
+      title: "Chainsaw Man",
+      genre: "Anime",
+      desc: "Junger Dämonenjäger verschmilzt mit seiner Kettensägen-Teufelin und kämpft gegen Monster.",
+      url: ""
+    },
+    {
+      emoji: "🌕",
+      title: "Iron Sky",
+      genre: "Sci-Fi",
+      desc: "Nazis vom Mond greifen die Erde an – skurrile Science-Fiction-Satire.",
+      url: ""
+    }
+  ];
 
-  <div class="scene">
-    <div class="stars">💫 ⭐ 💫</div>
-    <div class="pop-burst">RIIIIISS!</div>
-    <div class="paraglider-wrap">
-      <svg width="140" height="90" viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,20 Q70,-10 130,20 Q70,40 10,20 Z" fill="#FF6B4A" stroke="#2B2140" stroke-width="3"/>
-        <path d="M40,22 Q70,10 100,22" fill="none" stroke="#2B2140" stroke-width="2"/>
-        <line x1="20" y1="24" x2="55" y2="60" stroke="#2B2140" stroke-width="2"/>
-        <line x1="120" y1="24" x2="85" y2="60" stroke="#2B2140" stroke-width="2"/>
-        <line x1="40" y1="24" x2="58" y2="60" stroke="#2B2140" stroke-width="2"/>
-        <line x1="100" y1="24" x2="82" y2="60" stroke="#2B2140" stroke-width="2"/>
-        <circle cx="70" cy="66" r="9" fill="#FFD166" stroke="#2B2140" stroke-width="2"/>
-        <line x1="70" y1="75" x2="70" y2="86" stroke="#2B2140" stroke-width="3"/>
-      </svg>
-    </div>
-    <svg class="mountain" viewBox="0 0 900 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="0,220 150,60 260,150 380,40 520,150 650,70 780,160 900,90 900,220" fill="#6FCF97"/>
-      <polygon points="200,90 260,150 320,100" fill="#fff" opacity="0.8"/>
-      <polygon points="480,90 520,150 570,100" fill="#fff" opacity="0.8"/>
-      <polygon points="0,220 150,60 260,150 380,40 520,150 650,70 780,160 900,90 900,220" fill="none" stroke="#2B2140" stroke-width="3"/>
-    </svg>
-  </div>
+  const grid = document.getElementById("grid");
 
-  <div class="scroll-hint">↓ und jetzt zur guten Nachricht ↓</div>
-</section>
-
-<div class="divider">
-  <svg viewBox="0 0 900 90" preserveAspectRatio="none">
-    <path d="M0,0 L900,0 L900,40 Q450,90 0,40 Z" fill="#FBF3E3"/>
-  </svg>
-</div>
-
-<section class="couch-section">
-  <span class="couch-eyebrow">Der Silberstreif am Horizont</span>
-  <h2 class="couch-headline">
-    Couch-Modus: <span class="hi">AKTIVIERT</span> 🛋️✨
-  </h2>
-  <p class="couch-sub">
-    Kein Fliegen, dafür jetzt Vollzeit-Profi im Serien-Bingen, Bücher-Verschlingen
-    und Sofa-Besitzergreifen. Die Reha-Zeit wird zur goldenen Ära der Gemütlichkeit.
-  </p>
-
-  <div class="scoreboard">
-    <div class="scoreboard-title">🏆 ACHIEVEMENTS UPDATE 🏆</div>
-    <div class="score-grid">
-      <div class="score-col locked">
-        <h4>Vorübergehend gesperrt</h4>
-        <div class="score-item">🪂 Paragliding-Starts</div>
-        <div class="score-item">🏃 Treppen ohne Krücken</div>
-        <div class="score-item">💃 Spontane Tanzeinlagen</div>
-      </div>
-      <div class="score-col unlocked">
-        <h4>Neu freigeschaltet</h4>
-        <div class="score-item">🎬 Ganze Staffel an einem Tag</div>
-        <div class="score-item">📚 Bücherstapel neben dem Bett</div>
-        <div class="score-item">🍿 Offizieller Couch-Experten-Titel</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="float-row">
-    <a class="float-card" href="serien-vorschlaege.html">
-      <span class="emoji">📺</span>
-      <h4>Serien-Marathon</h4>
-      <p>Endlich Zeit für die 8 Staffeln, die schon ewig auf der Liste stehen.</p>
-    </a>
-    <a class="float-card" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbbQGpmHATS7gXF2-on1tbdV-F88eq0IX5Er22oIaqdxZlZkBLIaN0ZvE&s=10" target="_blank" rel="noopener noreferrer">
-      <span class="emoji">🧦</span>
-      <h4>Kuschelsocken-Pflicht</h4>
-      <p>Offizielle Reha-Uniform: Decke, Tee und die dicksten Socken im Schrank.</p>
-    </a>
-    <a class="float-card" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbbQGpmHATS7gXF2-on1tbdV-F88eq0IX5Er22oIaqdxZlZkBLIaN0ZvE&s=10" target="_blank" rel="noopener noreferrer">
-      <span class="emoji">⛰️</span>
-      <h4>Wiedo gsund?</h4>
-      <p>Find ausa wos get bol du wiedo af jedn Berg kimmsch!!</p>
-    </a>
-  </div>
-
-  <p class="footer-note">
-    Gute Besserung! 💛 Das Knie kommt wieder — bis dahin: Popcorn bereitstellen
-    und Lesezeichen griffbereit halten.
-  </p>
-</section>
+  SERIES.forEach(series => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="emoji">${series.emoji}</span>
+      <span class="genre">${series.genre}</span>
+      <h3>${series.title}</h3>
+      <p class="desc">${series.desc}</p>
+      <a class="watch-btn" href="${series.url}" target="_blank" rel="noopener noreferrer">Ansehen ▶</a>
+    `;
+    grid.appendChild(card);
+  });
+</script>
 
 </body>
 </html>
