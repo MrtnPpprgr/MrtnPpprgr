@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz freischalten 🔓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:ital,wght@0,400;0,600;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#7EC8E8;
+    --sky-deep:#3E9BC4;
+    --ink:#2B2140;
+    --cream:#FFF8ED;
+    --paper:#FBF3E3;
+    --mint:#6FCF97;
+    --accent:#FF6B4A;
+    --mustard:#F4B942;
+    --wrong:#E85C5C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2',cursive; font-weight:800; line-height:1.1;}
+
+  header{
+    background:linear-gradient(180deg,var(--sky) 0%, var(--sky-deep) 100%);
+    padding:56px 20px 76px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header .eyebrow{
+    display:inline-block;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:0.85rem;
+    background:var(--ink);
+    color:var(--cream);
+    padding:8px 20px;
+    border-radius:30px;
+  }
+  header h1{
+    color:var(--cream);
+    font-size:clamp(2rem,6vw,3.2rem);
+    margin:18px auto 10px;
+    max-width:700px;
+    text-shadow:3px 3px 0 rgba(43,33,64,0.25);
+  }
+  header p{
+    color:var(--cream);
+    font-weight:700;
+    max-width:520px;
+    margin:0 auto;
+    opacity:0.95;
+  }
+  .float-emoji{
+    position:absolute;
+    font-size:2.6rem;
+    animation:wiggle 3s ease-in-out infinite;
+  }
+  .float-emoji.e1{top:26px; left:8%; animation-delay:0.2s;}
+  .float-emoji.e2{top:56px; right:9%; animation-delay:0.8s;}
+  @keyframes wiggle{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(8deg);}}
+
+  main{
+    max-width:760px;
+    margin:-40px auto 0;
+    padding:0 20px 90px;
+    position:relative;
+    z-index:2;
+  }
+
+  .progress-bar{
+    background:var(--cream);
+    border:3px solid var(--ink);
+    border-radius:20px;
+    padding:14px 20px;
+    margin-bottom:30px;
+    box-shadow:6px 6px 0 var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-weight:800;
+    font-family:'Baloo 2',cursive;
+  }
+  .progress-track{
+    flex-grow:1;
+    height:14px;
+    background:rgba(0,0,0,0.08);
+    border-radius:10px;
+    margin:0 16px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--mint);
+    transition:width 0.35s ease;
+  }
+
+  .card{
+    background:var(--cream);
+    border:3px solid var(--ink);
+    border-radius:18px;
+    padding:22px 24px;
+    margin-bottom:22px;
+    box-shadow:6px 6px 0 var(--ink);
+  }
+  .card.correct{border-color:var(--mint);}
+  .card h3{margin:0 0 16px; font-size:1.15rem;}
+
+  .options{
+    display:grid;
+    gap:10px;
+  }
+  .option{
+    text-align:left;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:0.98rem;
+    background:var(--paper);
+    border:3px solid var(--ink);
+    border-radius:12px;
+    padding:12px 16px;
+    cursor:pointer;
+    transition:transform 0.1s ease, background 0.15s ease;
+  }
+  .option:hover{transform:translate(-2px,-2px);}
+  .option.selected-correct{background:var(--mint); }
+  .option.selected-wrong{background:var(--wrong); color:#fff;}
+  .option:disabled{cursor:default;}
+  .option:disabled:hover{transform:none;}
+
+  .feedback{
+    margin-top:10px;
+    font-weight:800;
+    font-size:0.9rem;
+    min-height:1.2em;
+  }
+  .feedback.ok{color:#2f7a4f;}
+  .feedback.no{color:var(--wrong);}
+
+  #reward{
+    display:none;
+    text-align:center;
+    background:var(--cream);
+    border:3px solid var(--ink);
+    border-radius:20px;
+    padding:34px 26px;
+    box-shadow:6px 6px 0 var(--ink);
+    animation:pop-in 0.4s ease;
+  }
+  @keyframes pop-in{
+    0%{opacity:0; transform:scale(0.85);}
+    100%{opacity:1; transform:scale(1);}
+  }
+  #reward .trophy{font-size:3rem; margin-bottom:10px; display:block;}
+  #reward h2{margin:0 0 8px;}
+  #reward p{font-weight:700; color:#5a4f73; margin:0 0 20px;}
+  #reward a.reward-link{
+    display:inline-block;
+    text-decoration:none;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1.05rem;
+    background:var(--accent);
+    color:var(--cream);
+    padding:14px 28px;
+    border-radius:14px;
+    border:3px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform 0.1s ease;
+  }
+  #reward a.reward-link:hover{transform:translate(-2px,-2px);}
+  #reward a.reward-link:active{transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink);}
+
+  .hint{
+    max-width:760px;
+    margin:40px auto 0;
+    background:rgba(111,207,151,0.25);
+    border:3px dashed var(--mint);
+    border-radius:16px;
+    padding:18px 22px;
+    font-weight:700;
+    font-size:0.92rem;
+    color:#2f5f45;
+  }
+  .hint code{
+    background:rgba(0,0,0,0.08);
+    padding:2px 6px;
+    border-radius:6px;
+    font-size:0.82rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="float-emoji e1">🔓</span>
+  <span class="float-emoji e2">🎯</span>
+  <span class="eyebrow">Kleines Rätsel vorweg</span>
+  <h1>Alle Fragen richtig, dann geht's weiter</h1>
+  <p>Beantworte jede Frage korrekt &mdash; danach erscheint der Link zur Überraschung.</p>
+</header>
+
+<main>
+  <div class="progress-bar">
+    <span>Fortschritt</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span id="progressLabel">0/0</span>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div id="reward">
+    <span class="trophy">🏆</span>
+    <h2>Alle Fragen richtig!</h2>
+    <p>Hier ist der Link zu deiner Überraschung.</p>
+    <a class="reward-link" id="rewardLink" href="#" target="_blank" rel="noopener noreferrer">Weiter geht's ▶</a>
+  </div>
+</main>
+
+<div class="hint">
+  💡 <strong>Leicht erweiterbar:</strong> Fragen im <code>QUESTIONS</code>-Array
+  im Code ergänzen (Frage, Antwortmöglichkeiten, Index der richtigen
+  Antwort). Das Ziel des Links wird ganz oben in <code>REWARD_URL</code>
+  festgelegt.
+</div>
+
+<script>
+  // ============================================================
+  // Ziel-URL, die nach vollständig korrekt beantwortetem Quiz
+  // angezeigt wird.
+  // ============================================================
+  const REWARD_URL = "duesseldorfer-huette.html";
+
+  // ============================================================
+  // Hier neue Fragen hinzufügen: einfach ein Objekt anhängen.
+  // "correct" ist der Index (ab 0) der richtigen Antwort in
+  // "options".
+  // ============================================================
+  const QUESTIONS = [
+    {
+      question: "Wie hoch liegt die Düsseldorfer Hütte ungefähr?",
+      options: ["1.500 m", "2.100 m", "2.721 m", "3.400 m"],
+      correct: 2
+    },
+    {
+      question: "In welcher Bergregion liegt Sulden?",
+      options: ["Dolomiten", "Ortlergruppe", "Zillertaler Alpen", "Karwendel"],
+      correct: 1
+    },
+    {
+      question: "Was hilft nach einem Kreuzbandriss am meisten?",
+      options: ["Sofort wieder Sport treiben", "Geduldige Reha & Physiotherapie", "Nur Ruhe, keine Bewegung", "Ignorieren und weiterfliegen"],
+      correct: 1
+    },
+    {
+      question: "Welche Gipfel sieht man von der Düsseldorfer Hütte?",
+      options: [
+        "Zugspitze & Watzmann",
+        "Ortler, Zebrù & Königsspitze",
+        "Matterhorn & Mont Blanc",
+        "Großglockner & Wildspitze"
+      ],
+      correct: 1
+    }
+  ];
+
+  const quizEl = document.getElementById("quiz");
+  const rewardEl = document.getElementById("reward");
+  const rewardLink = document.getElementById("rewardLink");
+  const progressFill = document.getElementById("progressFill");
+  const progressLabel = document.getElementById("progressLabel");
+
+  rewardLink.href = REWARD_URL;
+
+  const correctlyAnswered = new Set();
+
+  function updateProgress() {
+    const total = QUESTIONS.length;
+    const done = correctlyAnswered.size;
+    progressFill.style.width = `${(done / total) * 100}%`;
+    progressLabel.textContent = `${done}/${total}`;
+    if (done === total) {
+      rewardEl.style.display = "block";
+      rewardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  QUESTIONS.forEach((q, qIndex) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.id = `q-${qIndex}`;
+
+    const optionsHtml = q.options.map((opt, oIndex) =>
+      `<button class="option" data-q="${qIndex}" data-o="${oIndex}">${opt}</button>`
+    ).join("");
+
+    card.innerHTML = `
+      <h3>${qIndex + 1}. ${q.question}</h3>
+      <div class="options">${optionsHtml}</div>
+      <div class="feedback"></div>
+    `;
+    quizEl.appendChild(card);
+  });
+
+  quizEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".option");
+    if (!btn) return;
+
+    const qIndex = Number(btn.dataset.q);
+    const oIndex = Number(btn.dataset.o);
+    const q = QUESTIONS[qIndex];
+    const card = document.getElementById(`q-${qIndex}`);
+    const feedback = card.querySelector(".feedback");
+    const allOptions = card.querySelectorAll(".option");
+
+    if (oIndex === q.correct) {
+      allOptions.forEach(o => o.disabled = true);
+      btn.classList.add("selected-correct");
+      card.classList.add("correct");
+      feedback.textContent = "Richtig! ✓";
+      feedback.className = "feedback ok";
+      correctlyAnswered.add(qIndex);
+      updateProgress();
+    } else {
+      btn.classList.add("selected-wrong");
+      feedback.textContent = "Leider falsch, nochmal versuchen.";
+      feedback.className = "feedback no";
+      setTimeout(() => btn.classList.remove("selected-wrong"), 500);
+    }
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>

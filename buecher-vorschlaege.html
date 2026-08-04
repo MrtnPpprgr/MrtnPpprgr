@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nächstes Buch gefällig? 📚</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:ital,wght@0,400;0,600;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mustard:#F4B942;
+    --maroon:#8C3B3B;
+    --ink:#2B2140;
+    --cream:#FFF8ED;
+    --paper:#FBF3E3;
+    --sage:#8FAE8B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2',cursive; font-weight:800; line-height:1.1;}
+
+  header{
+    background:linear-gradient(180deg,var(--mustard) 0%, #E8973A 100%);
+    padding:60px 20px 80px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header .eyebrow{
+    display:inline-block;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:0.85rem;
+    background:var(--ink);
+    color:var(--cream);
+    padding:8px 20px;
+    border-radius:30px;
+  }
+  header h1{
+    color:var(--cream);
+    font-size:clamp(2rem,6vw,3.4rem);
+    margin:18px auto 10px;
+    max-width:700px;
+    text-shadow:3px 3px 0 rgba(43,33,64,0.25);
+  }
+  header p{
+    color:var(--ink);
+    font-weight:700;
+    max-width:520px;
+    margin:0 auto;
+    opacity:0.9;
+  }
+  .book-float{
+    position:absolute;
+    font-size:3rem;
+    animation:float-y 3.5s ease-in-out infinite;
+  }
+  .book-float.b1{ top:30px; left:8%; }
+  .book-float.b2{ top:60px; right:10%; animation-delay:0.6s;}
+  @keyframes float-y{
+    0%,100%{transform:translateY(0) rotate(-4deg);}
+    50%{transform:translateY(-10px) rotate(4deg);}
+  }
+
+  main{
+    max-width:1080px;
+    margin:-40px auto 0;
+    padding:0 20px 80px;
+    position:relative;
+    z-index:2;
+  }
+
+  #grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;
+  }
+
+  .card{
+    background:var(--cream);
+    border:3px solid var(--ink);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:6px 6px 0 var(--ink);
+    display:flex;
+    flex-direction:column;
+  }
+  .card .emoji{font-size:2.6rem; margin-bottom:10px;}
+  .card h3{margin:0 0 6px; font-size:1.2rem;}
+  .card .genre{
+    display:inline-block;
+    font-size:0.75rem;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    background:var(--sage);
+    color:var(--cream);
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    align-self:flex-start;
+  }
+  .card p.desc{
+    flex-grow:1;
+    font-size:0.95rem;
+    font-weight:600;
+    color:#5a4f73;
+    margin:0 0 16px;
+  }
+  .card button.dl-btn{
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1rem;
+    background:var(--maroon);
+    color:var(--cream);
+    padding:10px 16px;
+    border-radius:12px;
+    border:3px solid var(--ink);
+    box-shadow:3px 3px 0 var(--ink);
+    cursor:pointer;
+    transition:transform 0.1s ease;
+  }
+  .card button.dl-btn:hover{transform:translate(-2px,-2px);}
+  .card button.dl-btn:active{transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink);}
+  .card button.dl-btn.done{background:var(--sage);}
+
+  .status{
+    font-size:0.8rem;
+    font-weight:700;
+    color:#5a4f73;
+    margin-top:8px;
+    min-height:1.1em;
+  }
+
+  .hint{
+    max-width:700px;
+    margin:50px auto 0;
+    background:rgba(140,59,59,0.12);
+    border:3px dashed var(--maroon);
+    border-radius:16px;
+    padding:18px 22px;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--maroon);
+  }
+  .hint code{
+    background:rgba(0,0,0,0.08);
+    padding:2px 6px;
+    border-radius:6px;
+    font-size:0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="book-float b1">📖</span>
+  <span class="book-float b2">📚</span>
+  <span class="eyebrow">Couch-Modus &middot; Lesestoff</span>
+  <h1>Nächstes Buch gefällig?</h1>
+  <p>Auswählen, klicken, herunterladen &mdash; fertig ist der Lesestapel.</p>
+</header>
+
+<main>
+  <div id="grid"></div>
+
+  <div class="hint">
+    💡 <strong>Leicht erweiterbar:</strong> Neue Bücher einfach im
+    <code>BOOKS</code>-Array unten im Code ergänzen. Jedes Buch hat zwei
+    Datei-URLs (<code>files: [url1, url2]</code>) &mdash; beim Klick auf
+    "Herunterladen" wird für jede URL ein GET-Request ausgelöst und die
+    Datei heruntergeladen. Einfach die Platzhalter-URLs durch die
+    Adressen deines eigenen Servers/Anbieters ersetzen.
+  </div>
+</main>
+
+<script>
+  // ============================================================
+  // Hier neue Bücher hinzufügen: einfach ein Objekt anhängen.
+  // "files" enthält die beiden URLs, die beim Klick per GET
+  // abgerufen und heruntergeladen werden (z.B. E-Book + Cover,
+  // oder E-Book + Leseprobe). Passe die Platzhalter-URLs an
+  // deine eigene Quelle an.
+  // ============================================================
+  const BOOKS = [
+    {
+      emoji: "🕵️",
+      title: "Spannender Krimi",
+      genre: "Krimi",
+      desc: "Ideal für einen Nachmittag mit hochgelegtem Bein und viel Tee.",
+      files: [
+        "https://example.com/library/krimi-buch.epub",
+        "https://example.com/library/krimi-cover.jpg"
+      ]
+    },
+    {
+      emoji: "🌍",
+      title: "Reise-Roman",
+      genre: "Roman",
+      desc: "Solange das Bein noch nicht mitreisen kann, reist wenigstens der Kopf.",
+      files: [
+        "https://example.com/library/reise-roman.epub",
+        "https://example.com/library/reise-roman-cover.jpg"
+      ]
+    },
+    {
+      emoji: "🧠",
+      title: "Sachbuch zum Schmökern",
+      genre: "Sachbuch",
+      desc: "Etwas Wissen nebenbei, ganz ohne aufzustehen.",
+      files: [
+        "https://example.com/library/sachbuch.epub",
+        "https://example.com/library/sachbuch-cover.jpg"
+      ]
+    },
+    {
+      emoji: "💘",
+      title: "Leichte Liebesgeschichte",
+      genre: "Romance",
+      desc: "Herzflattern statt Bergluft &mdash; auch schön.",
+      files: [
+        "https://example.com/library/romance.epub",
+        "https://example.com/library/romance-cover.jpg"
+      ]
+    },
+    {
+      emoji: "🌌",
+      title: "Fantasy-Wälzer",
+      genre: "Fantasy",
+      desc: "Dickes Buch, viel Zeit &mdash; passt gerade ziemlich gut zusammen.",
+      files: [
+        "https://example.com/library/fantasy.epub",
+        "https://example.com/library/fantasy-cover.jpg"
+      ]
+    },
+    {
+      emoji: "😄",
+      title: "Humorvolle Kurzgeschichten",
+      genre: "Humor",
+      desc: "Für Tage, an denen die Konzentration nur für ein paar Seiten reicht.",
+      files: [
+        "https://example.com/library/humor.epub",
+        "https://example.com/library/humor-cover.jpg"
+      ]
+    }
+  ];
+
+  const grid = document.getElementById("grid");
+
+  // Löst für eine Liste von URLs je einen GET-Request /
+  // Datei-Download aus.
+  function downloadFiles(urls, statusEl) {
+    statusEl.textContent = "Lade Dateien herunter …";
+    urls.forEach((url, i) => {
+      setTimeout(() => {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = ""; // Browser zum Herunterladen statt Öffnen anregen
+        a.rel = "noopener noreferrer";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        if (i === urls.length - 1) {
+          statusEl.textContent = `${urls.length} Dateien angefordert ✓`;
+        }
+      }, i * 300); // kleine Verzögerung, damit der Browser beide Downloads sauber startet
+    });
+  }
+
+  BOOKS.forEach(book => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="emoji">${book.emoji}</span>
+      <span class="genre">${book.genre}</span>
+      <h3>${book.title}</h3>
+      <p class="desc">${book.desc}</p>
+      <button class="dl-btn">Herunterladen ⬇</button>
+      <div class="status"></div>
+    `;
+    const btn = card.querySelector(".dl-btn");
+    const status = card.querySelector(".status");
+    btn.addEventListener("click", () => {
+      downloadFiles(book.files, status);
+      btn.classList.add("done");
+      btn.textContent = "Erneut laden ⬇";
+    });
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
