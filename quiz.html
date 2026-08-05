@@ -265,6 +265,46 @@
         "A Küi ba scheißn"
       ],
       correct: 3
+    },
+    {
+      question: "Welcha Guaß hots net gebn?",
+      options: [
+        "Uschi",
+        "Zille",
+        "Lissi",
+        "Resi"
+      ],
+      correct: 1
+    },
+    {
+      question: "Wie huast fan Fabi do Bonsai?",
+      options: [
+        "Weschtsai",
+        "Kunnsai",
+        "Wurzeltoni",
+        "Nixsai"
+      ],
+      correct: 1
+    },
+    {
+      question: "Original Nome fan Mr.Mau?",
+      options: [
+        "VonMau",
+        "LaMau",
+        "DoMau",
+        "olbn Mr.Mau"
+      ],
+      correct: 2
+    },
+    {
+      question: "Nome fan Röss af Curasoa?",
+      options: [
+        "Ulle",
+        "Resi",
+        "Uschi",
+        "Rohne"
+      ],
+      correct: 2
     }
   ];
 
@@ -317,7 +357,7 @@
     const feedback = card.querySelector(".feedback");
     const allOptions = card.querySelectorAll(".option");
 
-    if (oIndex === q.correct) {
+    if (oIndex === q.correct || Number.isNaN(q.correct)) {
       allOptions.forEach(o => o.disabled = true);
       btn.classList.add("selected-correct");
       card.classList.add("correct");
